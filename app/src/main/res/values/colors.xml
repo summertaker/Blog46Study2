@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#388E3C</color>
+    <color name="colorPrimaryDark">#1B5E20</color>
+    <color name="colorAccent">#4CAF50</color>
+
+    <color name="transparent">#00000000</color>
+
+    <!-- Bootstrap Button -->
+    <color name="button_text_default">#ffffff</color>
+    <color name="button_text_reverse">#000000</color>
+
+    <color name="button_default">#e6e6e6</color>
+    <color name="button_default_border">#d6d6d6</color>
+    <color name="button_default_pressed">#d6d6d6</color>
+    <color name="button_default_pressed_border">#c6c6c6</color>
+
+    <color name="button_primary">#337AB7</color>
+    <color name="button_primary_border">#2E6DA4</color>
+    <color name="button_primary_pressed">#286090</color>
+    <color name="button_primary_pressed_border">#204D74</color>
+
+    <color name="button_success">#5CB85C</color>
+    <color name="button_success_border">#4CAE4C</color>
+    <color name="button_success_pressed">#449D44</color>
+    <color name="button_success_pressed_border">#398439</color>
+
+    <color name="button_info">#5BC0DE</color>
+    <color name="button_info_border">#46B8DA</color>
+    <color name="button_info_pressed">#31B0D5</color>
+    <color name="button_info_pressed_border">#269ABC</color>
+
+    <color name="button_warning">#F0AD4E</color>
+    <color name="button_warning_border">#EEA236</color>
+    <color name="button_warning_pressed">#EC971F</color>
+    <color name="button_warning_pressed_border">#D58512</color>
+
+    <color name="button_danger">#ed5565</color>
+    <color name="button_danger_border">#da4453</color>
+    <color name="button_danger_pressed">#da4453</color>
+    <color name="button_danger_pressed_border">#990000</color>
+
+    <color name="button_purple">#ba68c8</color>
+    <color name="button_purple_border">#ab47bc</color>
+    <color name="button_purple_pressed">#ab47bc</color>
+    <color name="button_purple_pressed_border">#9c27b0</color>
+
+    <!-- Card -->
+    <color name="card_background">#e1e1e1</color>
+    <color name="card_normal_background">#00000000</color>
+    <color name="card_normal_border">#00000000</color>
+    <color name="card_focused_backtround">#8881C784</color>
+    <color name="card_focused_border">#6681C784</color>
+    <color name="card_pressed_background">#8881C784</color>
+    <color name="card_pressed_border">#6681C784</color>
+    <color name="card_caption_background">#66000000</color>
+    <color name="card_caption_background_selected">#bb388E3C</color>
+
+    <!-- Selector -->
+    <color name="selector_normal">#ffffff</color>
+    <color name="selector_pressed">#4481C784</color>
+    <color name="selector_selected">#4481C784</color>
+    <color name="selector_focused">#4481C784</color>
+    <color name="selector_card_background">#ffffffff</color>
+    <color name="selector_card_normal_background">#00000000</color>
+    <color name="selector_card_normal_border">#00000000</color>
+    <color name="selector_card_focused_backtround">#8881C784</color>
+    <color name="selector_card_focused_border">#6681C784</color>
+    <color name="selector_card_pressed_background">#8881C784</color>
+    <color name="selector_card_pressed_border">#6681C784</color>
+</resources>

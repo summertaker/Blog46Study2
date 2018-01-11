@@ -1,0 +1,71 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- 라벨 -->
+    <style name="Label" parent="android:Widget.TextView">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/button_text_default</item>
+        <item name="android:background">@drawable/label_default</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">18dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+    </style>
+
+    <style name="DefaultLabel" parent="Label">
+        <item name="android:background">@drawable/label_default</item>
+        <item name="android:textColor">@color/button_text_reverse</item>
+    </style>
+
+    <style name="PrimaryLabel" parent="Label">
+        <item name="android:background">@drawable/label_primary</item>
+        <item name="android:textColor">@color/button_text_default</item>
+    </style>
+
+    <style name="SuccessLabel" parent="Label">
+        <item name="android:background">@drawable/label_success</item>
+        <item name="android:textColor">@color/button_text_default</item>
+    </style>
+
+    <style name="InfoLabel" parent="Label">
+        <item name="android:background">@drawable/label_info</item>
+        <item name="android:textColor">@color/button_text_default</item>
+    </style>
+
+    <style name="WarningLabel" parent="Label">
+        <item name="android:background">@drawable/label_warning</item>
+        <item name="android:textColor">@color/button_text_default</item>
+    </style>
+
+    <style name="DangerLabel" parent="Label">
+        <item name="android:background">@drawable/label_danger</item>
+        <item name="android:textColor">@color/button_text_default</item>
+    </style>
+
+    <style name="PurpleLabel" parent="Label">
+        <item name="android:background">@drawable/label_purple</item>
+        <item name="android:textColor">@color/button_text_default</item>
+    </style>
+
+</resources>
