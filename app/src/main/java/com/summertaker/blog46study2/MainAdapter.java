@@ -251,6 +251,7 @@ public class MainAdapter extends BaseDataAdapter {
                     date = sdf.parse(pubDate);
                     pubDate = DateFormat.getDateInstance(DateFormat.FULL).format(date);
                 }
+                pubDate = pubDate.replace("요일", "");
             } catch (ParseException e) {
                 e.printStackTrace();
             }

@@ -167,8 +167,6 @@ public class Keyakizaka46Parser extends BaseParser {
             text = text.replaceAll("&nbsp;", "");
             //Log.e(mTag, "text:\n" + text);
 
-            html = el.html().trim();
-
             //if (i == 0) {
             //    Log.e(mTag, ">>>>> BEFORE\n" + content);
             //}
@@ -179,8 +177,9 @@ public class Keyakizaka46Parser extends BaseParser {
                 images.add(src);
             }
 
-            StringBuilder builder = new StringBuilder();
+            html = el.html().trim();
             String[] array = html.split("<br>");
+            StringBuilder builder = new StringBuilder();
             int lineCount = 0;
             for (String str : array) {
                 Element con = Jsoup.parse(str);
@@ -196,7 +195,7 @@ public class Keyakizaka46Parser extends BaseParser {
                     }
                 }
 
-                temp = (lineCount == 0) ? text : "<br><br>" + temp;
+                temp = (lineCount == 0) ? temp : "<br><br>" + temp;
                 builder.append(temp);
 
                 lineCount++;
@@ -233,7 +232,7 @@ public class Keyakizaka46Parser extends BaseParser {
             date = el.text();
             //date = Util.convertBlogDate(date);
 
-            //Log.e(mTag, title + " / " + content);
+            //Log.e(mTag, ">> " + title + "\n" + text);
 
             Article article = new Article();
             article.setTitle(title);

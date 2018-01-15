@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:background="#eeee"
                 android:padding="10dp"
-                android:textColor="#0288d1"
+                android:textColor="@android:color/black"
                 android:textIsSelectable="true"
                 android:textSize="26sp" />
 
