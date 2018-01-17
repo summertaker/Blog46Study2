@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.summertaker.blog46study2.ArticleActivity"
-    tools:showIn="@layout/article_activity">
+    tools:context="com.summertaker.blog46study2.ArticleDetailActivity"
+    tools:showIn="@layout/article_detail_activity">
 
     <ScrollView
         android:id="@+id/svContent"

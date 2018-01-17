@@ -1,15 +1,17 @@
 package com.summertaker.blog46study2;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -18,8 +20,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -36,30 +40,38 @@ import com.summertaker.blog46study2.parser.Nogizaka46Parser;
 import com.summertaker.blog46study2.util.Util;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final int REQUEST_PERMISSION_CODE = 100;
     private boolean mIsPermissionGranted = false;
 
     private int mNavItemId = 0;
 
+    private final String mKeyLastCheckDate = "lastCheckDate";
+    private String mLastCheckDateString = "";
+    private Date mLastCheckDate = null;
+    DateFormat mDateFormat;
+
     private LinearLayout mLoLoading;
+    private TextView tvLoadingCount;
+    private ProgressBar mPbLoadingHorizontal;
 
     private int mLoadCount = 0;
-    private boolean mIsRefreshMode = false;
 
     private ArrayList<Member> mOshiMembers;
-
+    private SwipeRefreshLayout mSwipeRefresh;
     private MainAdapter mAdapter;
-    private ArrayList<Article> mArticles;
-    private ListView mListView;
+    private GridView mGridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +79,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setContentView(R.layout.main_activity);
 
         mContext = MainActivity.this;
+
+        mDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.ENGLISH);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -105,18 +119,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
 
         mLoLoading = findViewById(R.id.loLoading);
+        tvLoadingCount = findViewById(R.id.tvLoadingCount);
+        mPbLoadingHorizontal = findViewById(R.id.pbLoadingHorizontal);
 
-        mListView = findViewById(R.id.listView);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mSwipeRefresh = findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefresh.setOnRefreshListener(this);
+
+        mGridView = findViewById(R.id.gridView);
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Article article = (Article) adapterView.getItemAtPosition(i);
+                Member member = (Member) adapterView.getItemAtPosition(i);
 
-                Intent intent = new Intent(MainActivity.this, ArticleActivity.class);
-                intent.putExtra("title", article.getTitle());
-                intent.putExtra("name", article.getName());
-                intent.putExtra("date", article.getDate());
-                intent.putExtra("html", article.getHtml());
+                Intent intent = new Intent(mContext, ArticleListActivity.class);
+                intent.putExtra("name", member.getName());
+                intent.putExtra("blogUrl", member.getBlogUrl());
                 startActivity(intent);
             }
         });
@@ -173,16 +190,34 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void init() {
-        //Log.e(mTag, ">> init().mPagerAdapter is null...");
+        //Log.e(mTag, ">> init()...");
 
         if (mAdapter == null) {
+            //Log.e(mTag, ">> mAdapter is null.");
+
+            SharedPreferences mSharedPreferences = getSharedPreferences(Config.USER_PREFERENCE_KEY, Context.MODE_PRIVATE);
+            String lastCheckDate = mSharedPreferences.getString(mKeyLastCheckDate, "");
+            //Log.e(mTag, "mLastCheckDate: " + mLastCheckDate);
+
+            try {
+                mLastCheckDate = mDateFormat.parse(lastCheckDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e(mTag, "DATE ERROR: " + e.getMessage());
+            }
+
             mOshiMembers = new ArrayList<>();
             mOshiMembers = BaseApplication.getInstance().loadMember(Config.PREFERENCE_KEY_OSHIMEMBERS);
             //Log.e(mTag, "mOshiMembers.size() = " + mOshiMembers.size());
 
-            mArticles = new ArrayList<>();
-            mAdapter = new MainAdapter(mContext, mArticles);
-            mListView.setAdapter(mAdapter);
+            //for (Member member : mOshiMembers) {
+            //    member.setLoading(false);
+            //}
+
+            mAdapter = new MainAdapter(mContext, mOshiMembers);
+            mGridView.setAdapter(mAdapter);
+
+            mPbLoadingHorizontal.setProgress(0);
 
             loadData();
         }
@@ -190,7 +225,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -237,9 +272,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void loadData() {
-        if (mLoadCount < mOshiMembers.size()) {
-            Member member = mOshiMembers.get(mLoadCount);
-            checkData(member.getBlogUrl());
+        //if (mLoadCount < mOshiMembers.size()) {
+        for (Member member : mOshiMembers) {
+            //Member member = mOshiMembers.get(mLoadCount);
+
+            //checkData(member.getBlogUrl());
+            requestData(member.getBlogUrl());
         }
     }
 
@@ -248,7 +286,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         //Log.e(mTag, "fileName: " + fileName);
 
         File file = new File(Config.DATA_PATH, fileName);
-        if (file.exists() && !mIsRefreshMode) {
+        if (file.exists()) {
             Date lastModDate = new Date(file.lastModified());
             //Log.e(mTag, "File last modified: " + lastModDate.toString());
 
@@ -308,33 +346,84 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 Keyakizaka46Parser keyakizaka46Parser = new Keyakizaka46Parser();
                 keyakizaka46Parser.parseBlogDetail(response, articles);
             }
-            if (articles.size() > 0) {
-                mArticles.addAll(articles);
+
+            Member member = null;
+            for (Member m : mOshiMembers) {
+                if (url.equals(m.getBlogUrl())) {
+                    member = m;
+                    break;
+                }
             }
-        }
 
-        mLoadCount++;
+            if (member != null) {
+                if (articles.size() > 0) {
+                    Article article = articles.get(0);
+                    Date date = Util.getDate(article.getDate());
+                    //Log.e(mTag, member.getName() + " " + date.toString());
 
-        if (mLoadCount < mOshiMembers.size()) {
-            loadData();
-        } else {
-            Collections.sort(mArticles, Collections.reverseOrder());
-            //Collections.reverse(mArticles);
+                    if (url.equals(member.getBlogUrl())) {
+                        // https://stackoverflow.com/questions/22039991/how-to-compare-two-dates-along-with-time-in-java
+                        int compareTo = date.compareTo(mLastCheckDate);
+                        if (compareTo > 0) {
+                            member.setUpdated(true);
+                        } else if (compareTo < 0) {
+                            member.setUpdated(false);
+                        }
+                    }
+                } else {
+                    member.setUpdated(false);
+                }
+            }
 
-            renderData();
+            mLoadCount++;
+
+            if (mLoadCount < mOshiMembers.size()) {
+                //loadData();
+                updateProgress();
+            } else {
+                //Collections.sort(mArticles, Collections.reverseOrder());
+                renderData();
+            }
         }
     }
 
     public void renderData() {
-        mLoLoading.setVisibility(View.GONE);
-        mListView.setVisibility(View.VISIBLE);
+        String today = Util.getToday(Config.DATE_TIME_FORMAT);
+        SharedPreferences mSharedPreferences = getSharedPreferences(Config.USER_PREFERENCE_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor mSharedEditor = mSharedPreferences.edit();
+        mSharedEditor.putString(mKeyLastCheckDate, today);
+        mSharedEditor.apply();
 
-        mAdapter.notifyDataSetChanged();
+        mLoLoading.setVisibility(View.GONE);
+        mSwipeRefresh.setVisibility(View.VISIBLE);
 
         mLoadCount = 0;
-        mIsRefreshMode = false;
+
+        //mAdapter.notifyDataSetChanged();
+
+        mSwipeRefresh.setRefreshing(false);
 
         //mCallback.onCallback("fragmentLoaded");
+    }
+
+    private void updateProgress() {
+        //if (mCheckCount == 0) {
+        //    LinearLayout loLoadingHorizontal = (LinearLayout) findViewById(R.id.loLoadingHorizontal);
+        //    loLoadingHorizontal.setVisibility(View.VISIBLE);
+        //}
+
+        //tvLoadingName.setText(name);
+
+        int count = mLoadCount + 1;
+
+        String text = "( " + count + " / " + mOshiMembers.size() + " )";
+        tvLoadingCount.setText(text);
+
+        float progress = (float) count / (float) mOshiMembers.size();
+        int progressValue = (int) (progress * 100.0);
+        //Log.e(mTag, mUrlCount + " / " + mUrlTotal + " = " + progressValue);
+
+        mPbLoadingHorizontal.setProgress(progressValue);
     }
 
     public void onToolbarClick() {
@@ -344,7 +433,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void goTop() {
         //Log.e(mTag, "goTop()..." + mPosition);
 
-        mListView.setSelection(0);
+        //mListView.setSelection(0);
         //mListView.smoothScrollToPosition(0);
         //mListView.setSelectionAfterHeaderView();
     }
@@ -352,14 +441,29 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void refresh() {
         //Log.e(mTag, "refresh()..." + mPosition);
 
-        mAdapter = null;
+        //mAdapter = null;
         mLoadCount = 0;
-        mIsRefreshMode = true;
+
+        tvLoadingCount.setText("");
+        mPbLoadingHorizontal.setProgress(0);
+
+        //for (Member member : mOshiMembers) {
+        //    member.setLoading(true);
+        //}
+        //mAdapter.notifyDataSetChanged();
+
+        //mSwipeRefresh.setRefreshing(false);
 
         mLoLoading.setVisibility(View.VISIBLE);
-        mListView.setVisibility(View.GONE);
+        mSwipeRefresh.setVisibility(View.GONE);
 
-        init();
+        loadData();
+    }
+
+    @Override
+    public void onRefresh() {
+        //mSwipeRefresh.setRefreshing(false);
+        refresh();
     }
 
     @Override
@@ -372,7 +476,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             boolean isDataChanged = data.getBooleanExtra("isDataChanged", false);
 
             if (isDataChanged) {
-                refresh();
+                //refresh();
+                mAdapter = null;
             }
         }
     }

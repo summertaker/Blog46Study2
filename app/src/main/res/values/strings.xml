@@ -11,6 +11,7 @@
     <string name="app_version">Version 1.0</string>
 
     <string name="cache">캐쉬</string>
+    <string name="checking_updates">Checking update&#8230;</string>
 
     <string name="error">에러</string>
 
@@ -21,8 +22,10 @@
     <string name="navigation_drawer_close">Close</string>
     <string name="navigation_drawer_open">Open</string>
 
+    <string name="new_">New</string>
 
     <string name="ok">확인</string>
+    <string name="one_hundred_percent">100%</string>
 
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="success">Success</string>
@@ -38,4 +41,7 @@
     <string name="title_activity_member">멤버</string>
     <string name="title_activity_article">글</string>
     <string name="title_activity_cache">캐쉬</string>
+    <string name="title_activity_article_list">ArticleListActivity</string>
+
+    <string name="zero_percent">0%</string>
 </resources>

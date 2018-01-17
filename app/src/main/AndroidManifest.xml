@@ -34,13 +34,17 @@
             android:label="@string/title_activity_member"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ArticleActivity"
+            android:name=".ArticleDetailActivity"
             android:label="@string/title_activity_article"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CacheActivity"
             android:label="@string/title_activity_cache"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ArticleListActivity"
+            android:label="@string/title_activity_article_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

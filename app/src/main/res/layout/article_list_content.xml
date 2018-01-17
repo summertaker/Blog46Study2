@@ -5,38 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.summertaker.blog46study2.MemberActivity"
-    tools:showIn="@layout/member_activity">
+    tools:context="com.summertaker.blog46study2.ArticleListActivity"
+    tools:showIn="@layout/article_list_activity">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/loLoading"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <ProgressBar
             android:id="@+id/pbLoading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_marginTop="80dp"
             android:background="@drawable/progress_bar_circle" />
-    </RelativeLayout>
 
-    <GridView
-        android:id="@+id/gridView"
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:divider="@color/transparent"
+        android:dividerHeight="30dp"
         android:drawSelectorOnTop="true"
-        android:gravity="center"
-        android:horizontalSpacing="5dp"
-        android:listSelector="@drawable/selector_card"
-        android:numColumns="2"
-        android:padding="5dp"
+        android:listSelector="@drawable/selector_transparent"
         android:scrollbarStyle="outsideOverlay"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="5dp"
         android:visibility="gone" />
 
 </android.support.constraint.ConstraintLayout>

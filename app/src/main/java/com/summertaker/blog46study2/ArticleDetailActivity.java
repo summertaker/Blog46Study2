@@ -2,12 +2,10 @@ package com.summertaker.blog46study2;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ScrollView;
-import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.summertaker.blog46study2.common.BaseActivity;
@@ -21,16 +19,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class ArticleActivity extends BaseActivity {
+public class ArticleDetailActivity extends BaseActivity {
 
     private ScrollView mSvContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.article_activity);
+        setContentView(R.layout.article_detail_activity);
 
-        mContext = ArticleActivity.this;
+        mContext = ArticleDetailActivity.this;
 
         Intent intent = getIntent();
         String blogTitle = intent.getStringExtra("title");

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.summertaker.blog46study2.ArticleActivity">
+    tools:context="com.summertaker.blog46study2.ArticleListActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,6 +21,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/article_content" />
+    <include layout="@layout/article_list_content" />
 
 </android.support.design.widget.CoordinatorLayout>

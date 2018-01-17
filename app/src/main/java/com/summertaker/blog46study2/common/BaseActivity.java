@@ -40,7 +40,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
 
             if (title != null) {
-                Log.e(mTag, "title: " + title);
+                //Log.e(mTag, "title: " + title);
                 actionBar.setTitle(title);
             }
         }

@@ -63,6 +63,7 @@ public class MemberActivity extends BaseActivity implements MemberInterface {
         initToolbar(mGroup.getName());
 
         mLoLoading = findViewById(R.id.loLoading);
+
         mGridView = findViewById(R.id.gridView);
 
         loadGroup();

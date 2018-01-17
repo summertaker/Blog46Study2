@@ -17,7 +17,7 @@ public class Config {
 
     public static final int REQUEST_CODE = 100;
 
-    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE_TIME_FORMAT = "yyyy/MM/dd HH:mm";
 
     public final static int CACHE_EXPIRE_TIME = 60; // 60분
 }

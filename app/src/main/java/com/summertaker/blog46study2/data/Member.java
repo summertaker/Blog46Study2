@@ -14,6 +14,8 @@ public class Member implements Serializable {
     private String blogUrl;
     private boolean selected;
     private boolean oshimember;
+    private boolean loading;
+    private boolean updated;
 
     public String getGroupId() {
         return groupId;
@@ -77,5 +79,21 @@ public class Member implements Serializable {
 
     public void setOshimember(boolean oshimember) {
         this.oshimember = oshimember;
+    }
+
+    public boolean isLoading() {
+        return loading;
+    }
+
+    public void setLoading(boolean loading) {
+        this.loading = loading;
+    }
+
+    public boolean isUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(boolean updated) {
+        this.updated = updated;
     }
 }

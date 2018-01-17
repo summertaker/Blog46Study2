@@ -205,6 +205,30 @@ public class Util {
         return result;
     }
 
+    public static Date getDate(String str) {
+        Date date = null;
+        try {
+            DateFormat sdf = null;
+            if (str.contains("+")) {
+                sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+                date = sdf.parse(str);
+            } else if (str.contains("/")) {
+                sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.ENGLISH);
+                date = sdf.parse(str);
+            } else if (str.contains("-")) {
+                sdf = new SimpleDateFormat("yyyy-MM-dd E", Locale.ENGLISH);
+                date = sdf.parse(str);
+            } else if (str.contains(".") && str.length() <= 10) {
+                sdf = new SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH);
+                date = sdf.parse(str);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
+    }
+
     public static long getDirectorySize(File directory) {
         long length = 0;
         for (File file : directory.listFiles()) {

@@ -1,91 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cvContent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    card_view:cardCornerRadius="@dimen/card_corner_radius"
+    card_view:cardElevation="@dimen/card_elevation">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:id="@+id/ivPicture"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop" />
 
         <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
+            android:id="@+id/tvNew"
+            style="@style/DangerLabel"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="24sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="3dp"
             android:layout_marginTop="5dp"
-            android:orientation="horizontal">
+            android:paddingBottom="2dp"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:paddingTop="2dp"
+            android:text="@string/new_"
+            android:textSize="12sp"
+            android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/tvToday"
-                style="@style/DangerLabel"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/card_caption_background"
+            android:gravity="center">
+
+            <ProgressBar
+                android:id="@+id/pbLoading"
+                style="@android:style/Widget.ProgressBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:paddingBottom="2dp"
-                android:paddingEnd="4dp"
-                android:paddingStart="4dp"
-                android:paddingTop="2dp"
-                android:text="@string/today"
-                android:textSize="12sp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/tvYesterday"
-                style="@style/InfoLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:paddingBottom="2dp"
-                android:paddingEnd="4dp"
-                android:paddingStart="4dp"
-                android:paddingTop="2dp"
-                android:text="@string/yesterday"
-                android:textSize="12sp"
                 android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:textColor="#0288d1"
+                android:singleLine="true"
+                android:textColor="#ffffffff"
                 android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#388e3c"
-                android:textSize="14sp" />
+        </RelativeLayout>
 
-        </LinearLayout>
+    </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tvContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:lineSpacingExtra="3dp"
-            android:maxLines="3"
-            android:textColor="#555555"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/loPicture"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:visibility="gone" />
-
-</LinearLayout>
+</android.support.v7.widget.CardView>
